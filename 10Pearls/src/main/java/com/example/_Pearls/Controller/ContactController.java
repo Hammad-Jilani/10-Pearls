@@ -43,13 +43,14 @@ public class ContactController {
                                                               @RequestParam int size) throws Exception {
         logger.info("GET /api/contact/contacts - page: {}, size: {}, JWT: {}", page, size, jwt);
         User user = userService.findUserProfileByJwt(jwt);
+        System.out.println("sgsfsfs"+user.getUsername());
         Page<Contact> contacts = contactService.findPaginatedContacts(user.getId(), page, size);
         logger.info("Paginated contacts retrieved for user ID: {}", user.getId());
         return ResponseEntity.ok(contacts);
     }
 
     @PutMapping("/update/{contactId}")
-    public ResponseEntity<MessageResponse> updateContact(
+    public ResponseEntity<Contact> updateContact(
             @PathVariable Long contactId,
             @RequestBody Contact requestContact
             ,@RequestHeader("Authorization") String jwt) throws Exception {
@@ -59,7 +60,7 @@ public class ContactController {
         Contact update = contactService.updateContact(requestContact,contact,user);
         MessageResponse messageResponse = new MessageResponse("Contact updated successfully");
         logger.info("Contact with ID {} updated for user ID: {}", contactId, user.getId());
-        return new ResponseEntity<>(messageResponse,HttpStatus.OK);
+        return new ResponseEntity<>(update,HttpStatus.OK);
     }
 
     @DeleteMapping("/{contactId}")

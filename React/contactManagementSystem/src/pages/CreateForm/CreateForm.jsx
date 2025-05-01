@@ -5,8 +5,9 @@ import { createContact } from '@/Redux/Contact/Action';
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux';
+import { toast } from 'sonner';
 
-function CreateForm() {
+function CreateForm({setDialogOpen}) {
 
   const dispatch = useDispatch()
   const form = useForm({
@@ -18,6 +19,8 @@ function CreateForm() {
   })
   function onSubmit(data) {
     console.log(data)
+    toast.success("Contact Created successfully")
+    setDialogOpen(false)
     dispatch(createContact(data))
   }
   return (

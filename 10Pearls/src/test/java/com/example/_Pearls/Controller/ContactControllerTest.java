@@ -148,15 +148,17 @@ public class ContactControllerTest {
         requestContact.setNumber("9876543210");
 
         // Call the controller method
-        ResponseEntity<MessageResponse> response = contactController.updateContact(contact.getContactId(), requestContact, "Bearer someJwt");
+        ResponseEntity<Contact> response = contactController.updateContact(contact.getContactId(), requestContact, "Bearer someJwt");
 
         // Verify the result
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Contact updated successfully", response.getBody().getMessage());
+        assertEquals(contact, response.getBody()); // check object equality
 
         // Verify interactions with mock services
+        verify(userService, times(1)).findUserProfileByJwt(anyString());
         verify(contactService, times(1)).findContact(contact.getContactId());
         verify(contactService, times(1)).updateContact(any(Contact.class), eq(contact), eq(user));
     }
+
 
 }

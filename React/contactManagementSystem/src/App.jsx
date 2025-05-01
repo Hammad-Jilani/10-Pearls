@@ -11,6 +11,8 @@ import Auth from './pages/Auth/Auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { store } from './Redux/Store'
 import { getUser } from './Redux/Auth/ActionTypes'
+import ContactList from './pages/ContactList'
+import { Toaster } from './components/ui/sonner'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +31,8 @@ function App() {
         auth.user?
         <>
           <Navbar/>
+          <Toaster></Toaster>
+          <ContactList/>
           {/* <Routes>
             
             <Route path='/'></Route>

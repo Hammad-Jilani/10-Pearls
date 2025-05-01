@@ -105,7 +105,8 @@ public class ContactServiceImpl implements ContactService{
     @Override
     public List<Contact> searchContacts(String keyword, User user) throws Exception {
         logger.info("Searching contacts by keyword: '{}' for user ID: {}", keyword, user.getId());
-        return List.of((Contact) contactRepository
-                .findByNameContainingAndUserId(keyword,user.getId()));
+        List<Contact> list = contactRepository
+                .findByNameContainingAndUserId(keyword,user.getId());
+        return list;
     }
 }

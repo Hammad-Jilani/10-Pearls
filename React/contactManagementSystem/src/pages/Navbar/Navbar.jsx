@@ -1,39 +1,40 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { logout } from '@/Redux/Auth/ActionTypes'
 import { store } from '@/Redux/Store'
 
 import { DotsVerticalIcon, PersonIcon } from '@radix-ui/react-icons'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CreateForm from '../CreateForm/CreateForm'
 
 function Navbar() {
   const dispatch = useDispatch()
   const {auth} = useSelector(store=>store)
-
+  const [dialogOpen,setDialogOpen] = useState(false)
+ 
   function handleLogout(){
     dispatch(logout())
   }
   return (
     <div className='w-full '>
-      <div className='xl:w-4/5 sm:w-[9/10] mx-auto py-5 flex justify-between'>
-        <div className='flex space-x-5'>
-          <p className='sm:text-sm xl:text-xl font-semibold'>Contact Management System</p>
-          <Dialog>
+      <div className='w-4/5 mx-auto py-5 flex justify-between items-center'>
+        <div className='flex space-x-2'>
+          <p className='text-sm md:text-xl font-semibold cursor-pointer'>Contact Management System</p>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger>
-              <Button variant={"secondary"}>Create New Contact</Button>
+              <Button onClick={()=>setDialogOpen(true)} >Create New Contact</Button>
             </DialogTrigger>
 
             <DialogContent>
               <DialogHeader className='sm:text-lg xl:text-2xl lg:text-xl'>Contact Information</DialogHeader>
-              <CreateForm></CreateForm>
+              <CreateForm setDialogOpen={setDialogOpen}></CreateForm>
             </DialogContent>
           </Dialog>
         </div>
-        <div className='flex space-x-5'>
+        <div className='flex mx-3 lg:gap-5 items-center'>
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="outline" size="icon" className="rounded-full border-2 border-gray-500">
@@ -46,7 +47,7 @@ function Navbar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <p>{auth.user.username}</p>
+          <p className='text-base'>{auth.user.username}</p>
         </div>
       </div>
     </div>
