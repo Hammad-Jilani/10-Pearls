@@ -9,21 +9,29 @@ import { DotsVerticalIcon, PersonIcon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CreateForm from '../CreateForm/CreateForm'
+import ChangePassword from './ChangePassword'
 
 function Navbar() {
   const dispatch = useDispatch()
   const {auth} = useSelector(store=>store)
   const [dialogOpen,setDialogOpen] = useState(false)
+  const [user,setUser] = useState(null)
  
   function handleLogout(){
     dispatch(logout())
   }
+
+  function handleChangePassword(passeduser){
+    setDialogOpen(true)
+    setUser(passeduser)
+  }
+
   return (
     <div className='w-full '>
       <div className='w-4/5 mx-auto py-5 flex justify-between items-center'>
         <div className='flex space-x-2'>
           <p className='text-sm md:text-xl font-semibold cursor-pointer'>Contact Management System</p>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog>
             <DialogTrigger>
               <Button onClick={()=>setDialogOpen(true)} >Create New Contact</Button>
             </DialogTrigger>
@@ -42,14 +50,26 @@ function Navbar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
+              <DropdownMenuItem onClick={(auth)=>handleChangePassword(auth.user)}>
+                Change Password
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
                 Logout
               </DropdownMenuItem>
+              
             </DropdownMenuContent>
           </DropdownMenu>
           <p className='text-base'>{auth.user.username}</p>
         </div>
+
+        
       </div>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent>
+            <DialogHeader>Change Password</DialogHeader>
+            <ChangePassword setDialogOpen={setDialogOpen}></ChangePassword>
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }
