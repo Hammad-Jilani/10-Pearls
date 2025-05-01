@@ -33,7 +33,7 @@ function Navbar() {
           <p className='text-sm md:text-xl font-semibold cursor-pointer'>Contact Management System</p>
           <Dialog>
             <DialogTrigger>
-              <Button onClick={()=>setDialogOpen(true)} >Create New Contact</Button>
+              <Button>Create New Contact</Button>
             </DialogTrigger>
 
             <DialogContent>
