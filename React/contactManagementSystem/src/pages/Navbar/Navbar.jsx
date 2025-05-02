@@ -10,12 +10,14 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CreateForm from '../CreateForm/CreateForm'
 import ChangePassword from './ChangePassword'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
   const dispatch = useDispatch()
   const {auth} = useSelector(store=>store)
   const [dialogOpen,setDialogOpen] = useState(false)
   const [user,setUser] = useState(null)
+  const navigate=useNavigate()
  
   function handleLogout(){
     dispatch(logout())
@@ -30,10 +32,11 @@ function Navbar() {
     <div className='w-full '>
       <div className='w-4/5 mx-auto py-5 flex justify-between items-center'>
         <div className='flex space-x-2'>
-          <p className='text-sm md:text-xl font-semibold cursor-pointer'>Contact Management System</p>
+          <p className='text-sm md:text-xl font-semibold cursor-pointer' onClick={()=>navigate('/')}>Contact Management System</p>
           <Dialog>
             <DialogTrigger>
-              <Button>Create New Contact</Button>
+              <Button 
+              >Create New Contact</Button>
             </DialogTrigger>
 
             <DialogContent>

@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { CirclesWithBar } from 'react-loader-spinner';
 
 function ContactList() {
   const dispatch = useDispatch();
@@ -41,7 +42,9 @@ function ContactList() {
   })
 
   if (contact.loading) {
-    return <p className="text-center text-lg mt-8 text-gray-600">Loading...</p>;
+    // return <p className="text-center text-lg mt-8 text-gray-600">Loading...</p>;
+    return <CirclesWithBar color='blue' width={1200} height={400}></CirclesWithBar>
+    // return <Spinner color='blue' width={1200} height={400}></Spinner>
   }
 
   if (contact.error) {
