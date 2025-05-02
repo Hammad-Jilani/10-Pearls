@@ -87,6 +87,14 @@ public class ContactController {
         return new ResponseEntity<>(messageResponse,HttpStatus.OK);
     }
 
+    @GetMapping("/details/{contactId}")
+    private ResponseEntity<Contact> getContact(@PathVariable Long contactId,
+                                               @RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.findUserProfileByJwt(jwt);
+        Contact contact = contactService.findContactForDetails(contactId,user.getId());
+        return new ResponseEntity<>(contact,HttpStatus.OK);
+    }
+
     @GetMapping("/search")
     private ResponseEntity<List<Contact>> searchProjects(
             @RequestParam(required = false) String keyword,

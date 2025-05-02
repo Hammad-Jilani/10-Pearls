@@ -11,10 +11,12 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 function ContactList() {
   const dispatch = useDispatch();
   const { contact } = useSelector(store => store);
+  const navigate = useNavigate()
 
   const [updateContact,setUpdateContact]=useState(null)
   const [dialogOpen,setDialogOpen] = useState(false)
@@ -63,6 +65,11 @@ function ContactList() {
     dispatch(searchContactList(data.search))
   }
 
+  function handleCard(c){
+    navigate(`/details/${c.contactId}`)
+    
+  }
+
   return (
     <div className="w-full max-w-4xl mx-auto mt-10 space-y-4 px-4">
 
@@ -97,7 +104,7 @@ function ContactList() {
       { searchContact &&
       contact.searchContact.map((c) => (
           
-        <Card key={c.contactId} className="p-4 shadow-md rounded-2xl border w-1/2 my-3 mx-auto border-gray-200">
+        <Card key={c.contactId} className="p-4 shadow-md rounded-2xl border w-1/2 my-3 mx-auto border-gray-200" >
           
           <div className='flex items-center'>
             <div className='w-2/3 text-center'>
@@ -116,6 +123,9 @@ function ContactList() {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={()=>handleUpdateContact(c)}>
                     Update
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={()=>handleCard(c)}>
+                    Display
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -152,6 +162,9 @@ function ContactList() {
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={()=>handleUpdateContact(c)}>
                       Update
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>handleCard((c))}>
+                      Display
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

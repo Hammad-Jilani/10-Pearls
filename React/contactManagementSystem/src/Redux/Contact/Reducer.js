@@ -1,6 +1,6 @@
 
 import { GET_USER_REQUEST } from "../Auth/Action";
-import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, FETCH_CONTACTS_FAILURE, FETCH_CONTACTS_REQUEST, FETCH_CONTACTS_SUCCESS, GET_CONTACT_REQUEST, SEARCH_CONTACT_FAILURE, SEARCH_CONTACT_REQUEST, SEARCH_CONTACT_SUCCESS, UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS } from "./ActionType";
+import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, FETCH_CONTACTS_FAILURE, FETCH_CONTACTS_REQUEST, FETCH_CONTACTS_SUCCESS, GET_CONTACT_FAILURE, GET_CONTACT_REQUEST, GET_CONTACT_SUCCESS, SEARCH_CONTACT_FAILURE, SEARCH_CONTACT_REQUEST, SEARCH_CONTACT_SUCCESS, UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS } from "./ActionType";
 
 const initialState = {
   contact: [],
@@ -9,7 +9,8 @@ const initialState = {
   message: '',
   page: 0,
   totalPages: 0,
-  searchContact: null
+  searchContact: null,
+  contactDetail: null
 }
 
 function contactReducer(state = initialState, action) {
@@ -23,6 +24,10 @@ function contactReducer(state = initialState, action) {
 
     case SEARCH_CONTACT_SUCCESS:
       return { ...state, error: null, loading: false, searchContact: action.contact }
+
+
+    case GET_CONTACT_SUCCESS:
+      return { ...state, loading: false, contactDetail: action.contact }
 
     case CREATE_CONTACT_SUCCESS:
       return { ...state, loading: false, message: 'Create Contact', contact: [...state.contact, action.payload] }
@@ -43,6 +48,7 @@ function contactReducer(state = initialState, action) {
       };
 
     case FETCH_CONTACTS_FAILURE:
+    case GET_CONTACT_FAILURE:
     case DELETE_CONTACT_FAILURE:
     case SEARCH_CONTACT_FAILURE:
       return { ...state, loading: false, error: action.error };

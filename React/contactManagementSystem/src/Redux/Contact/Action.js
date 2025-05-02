@@ -1,6 +1,7 @@
 import api, { API_BASE_URL } from "@/config/api"
-import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, FETCH_CONTACTS_FAILURE, FETCH_CONTACTS_REQUEST, FETCH_CONTACTS_SUCCESS, SEARCH_CONTACT_FAILURE, SEARCH_CONTACT_REQUEST, SEARCH_CONTACT_SUCCESS, UPDATE_CONTACT_FAILURE, UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS } from "./ActionType"
+import { CREATE_CONTACT_FAILURE, CREATE_CONTACT_REQUEST, CREATE_CONTACT_SUCCESS, DELETE_CONTACT_FAILURE, DELETE_CONTACT_REQUEST, DELETE_CONTACT_SUCCESS, FETCH_CONTACTS_FAILURE, FETCH_CONTACTS_REQUEST, FETCH_CONTACTS_SUCCESS, GET_CONTACT_FAILURE, GET_CONTACT_REQUEST, GET_CONTACT_SUCCESS, SEARCH_CONTACT_FAILURE, SEARCH_CONTACT_REQUEST, SEARCH_CONTACT_SUCCESS, UPDATE_CONTACT_FAILURE, UPDATE_CONTACT_REQUEST, UPDATE_CONTACT_SUCCESS } from "./ActionType"
 import axios from "axios";
+import { toast } from "sonner";
 
 export function createContact(userData) {
   return async function (dispatch) {
@@ -53,11 +54,27 @@ export function deleteContact({ contactId }) {
   return async function (dispatch) {
     dispatch({ type: DELETE_CONTACT_REQUEST })
     try {
+      toast.success("Contact Deleted Successfully")
       const { data } = await api.delete(`/api/contact/${contactId}`)
       dispatch({ type: DELETE_CONTACT_SUCCESS, contactId: contactId, payload: data })
     } catch (error) {
       console.log('delete error ', error);
+      toast.error("Contact Delete Unsuccessfully")
       dispatch({ type: DELETE_CONTACT_FAILURE, error: error.message })
+    }
+  }
+}
+
+export function getContactDetails({ contactId }) {
+  return async function (dispatch) {
+    dispatch({ type: GET_CONTACT_REQUEST })
+    try {
+      const { data } = await api.get('/api/contact/details/' + contactId)
+      dispatch({ type: GET_CONTACT_SUCCESS, contact: data })
+      console.log('get contact ', data);
+
+    } catch (error) {
+      dispatch({ type: GET_CONTACT_FAILURE, error: error.message })
     }
   }
 }

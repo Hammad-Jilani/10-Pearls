@@ -13,6 +13,7 @@ import { store } from './Redux/Store'
 import { getUser } from './Redux/Auth/ActionTypes'
 import ContactList from './pages/ContactList'
 import { Toaster } from './components/ui/sonner'
+import ContactDetail from './pages/ContactDetail'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,11 +33,12 @@ function App() {
         <>
           <Navbar/>
           <Toaster></Toaster>
-          <ContactList/>
-          {/* <Routes>
+          
+          <Routes>
             
-            <Route path='/'></Route>
-          </Routes> */}
+            <Route path='/' element={<ContactList/>}></Route>
+            <Route path="/details/:id" element={<ContactDetail/>}></Route>
+          </Routes>
         </>
         :<Auth/>
       }

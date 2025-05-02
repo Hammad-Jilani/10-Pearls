@@ -90,6 +90,15 @@ public class ContactServiceImpl implements ContactService{
         }
     }
 
+    public Contact findContactForDetails(Long contactId,Long user) {
+        logger.info("Finding contact with Contact ID: {} and User ID : {}", contactId,user);
+        Optional<Contact> optionalContact = contactRepository.findByContactIdAndUserId(contactId,user);
+        if (optionalContact.isEmpty()){
+            logger.warn("Contact not found with Contact ID: {} and User ID : {}", contactId,user);
+            throw new ContactNotFoundException("Contact not found with contact Id "+contactId);
+        }
+        return optionalContact.get();
+    }
 
     @Override
     public Contact findContact(Long contactId) {
